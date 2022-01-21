@@ -98,55 +98,55 @@ public class ServerIdent extends MObject {
                 || CFG_SERVICE_PATTERN == null) return; // do not update in init time
 
         ident = CFG_IDENT.value();
-
-        String persistence =
-                MApi.getFile(MApi.SCOPE.ETC, ServerIdent.class.getCanonicalName() + ".properties")
-                        .getAbsolutePath();
-        File file = new File(persistence);
-        MProperties p = null;
-        if (CFG_PERSISTENT.value() && file.exists() && file.isFile()) p = MProperties.load(file);
-        else p = new MProperties();
-
-        if (ident == null) {
-            String def = p.getString("ident", null);
-            if (def == null) {
-                try {
-                    def = StringCompiler.compile(CFG_PATTERN.value()).execute(ATTRIBUTES);
-                    ATTRIBUTES.setString("default", def);
-                    if (CFG_PERSISTENT.value()) ATTRIBUTES.save(file);
-                } catch (Exception e) {
-                    log().e(e);
-                }
-            }
-            def = MFile.normalize(def);
-            ident = def;
-            p.setString("ident", ident);
-        }
-
-        service = CFG_SERVICE.value();
-
-        if (service == null) {
-            String def = p.getString("service", null);
-            if (def == null) {
-                try {
-                    def = StringCompiler.compile(CFG_SERVICE_PATTERN.value()).execute(ATTRIBUTES);
-                    ATTRIBUTES.setString("default", def);
-                    if (CFG_PERSISTENT.value()) ATTRIBUTES.save(file);
-                } catch (Exception e) {
-                    log().e(e);
-                }
-            }
-            def = MFile.normalize(def);
-            service = def;
-            p.setString("service", service);
-        }
-
-        if (CFG_PERSISTENT.value() && file.exists() && file.isFile())
-            try {
-                p.save(file);
-            } catch (IOException e) {
-                log().w(file, e);
-            }
+// XXX change behavior
+//        String persistence =
+//                MApi.getFile(MApi.SCOPE.ETC, ServerIdent.class.getCanonicalName() + ".properties")
+//                        .getAbsolutePath();
+//        File file = new File(persistence);
+//        MProperties p = null;
+//        if (CFG_PERSISTENT.value() && file.exists() && file.isFile()) p = MProperties.load(file);
+//        else p = new MProperties();
+//
+//        if (ident == null) {
+//            String def = p.getString("ident", null);
+//            if (def == null) {
+//                try {
+//                    def = StringCompiler.compile(CFG_PATTERN.value()).execute(ATTRIBUTES);
+//                    ATTRIBUTES.setString("default", def);
+//                    if (CFG_PERSISTENT.value()) ATTRIBUTES.save(file);
+//                } catch (Exception e) {
+//                    log().e(e);
+//                }
+//            }
+//            def = MFile.normalize(def);
+//            ident = def;
+//            p.setString("ident", ident);
+//        }
+//
+//        service = CFG_SERVICE.value();
+//
+//        if (service == null) {
+//            String def = p.getString("service", null);
+//            if (def == null) {
+//                try {
+//                    def = StringCompiler.compile(CFG_SERVICE_PATTERN.value()).execute(ATTRIBUTES);
+//                    ATTRIBUTES.setString("default", def);
+//                    if (CFG_PERSISTENT.value()) ATTRIBUTES.save(file);
+//                } catch (Exception e) {
+//                    log().e(e);
+//                }
+//            }
+//            def = MFile.normalize(def);
+//            service = def;
+//            p.setString("service", service);
+//        }
+//
+//        if (CFG_PERSISTENT.value() && file.exists() && file.isFile())
+//            try {
+//                p.save(file);
+//            } catch (IOException e) {
+//                log().w(file, e);
+//            }
     }
 
     @Override
