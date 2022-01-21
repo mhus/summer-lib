@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.lang.annotation.Annotation;
+import java.lang.instrument.Instrumentation;
 import java.lang.management.LockInfo;
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
@@ -48,6 +49,9 @@ import java.util.regex.Pattern;
 
 import de.mhus.lib.core.logging.Log;
 import de.mhus.lib.errors.NotFoundException;
+import net.bytebuddy.agent.ByteBuddyAgent;
+import net.bytebuddy.description.type.TypeDescription;
+import net.bytebuddy.dynamic.ClassFileLocator;
 
 public class MSystem {
 
@@ -1139,4 +1143,21 @@ public class MSystem {
         }
         throw new NotFoundException("manifest not found for", owner);
     }
+    
+    
+    private static final Instrumentation instrumentation = ByteBuddyAgent.install();
+    /*
+     * Use byte buddy to get the class byte code
+     */
+    public static byte[] getBytes(Class<?> c) throws IOException {
+        //		String name = '/' + c.getName().replace('.', '/')+ ".class";
+        //		InputStream is = c.getClassLoader().getResourceAsStream(name);
+        //		byte[] bytes = MFile.readBinary(is);
+        //		return bytes;
+        ClassFileLocator locator = ClassFileLocator.ForInstrumentation.of(instrumentation, c);
+        TypeDescription.ForLoadedType desc = new TypeDescription.ForLoadedType(c);
+        ClassFileLocator.Resolution resolution = locator.locate(desc.getName());
+        return resolution.resolve();
+    }
+
 }

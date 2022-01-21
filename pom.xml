@@ -119,6 +119,21 @@
 			<artifactId>jackson-databind</artifactId>
 		</dependency>
 
+		<dependency>
+		  <groupId>net.bytebuddy</groupId>
+		  <artifactId>byte-buddy</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>net.bytebuddy</groupId>
+		    <artifactId>byte-buddy-agent</artifactId>
+		</dependency>
+
+	    <dependency>
+	        <groupId>org.summerclouds</groupId>
+	        <artifactId>summer-junit</artifactId>
+	        <scope>test</scope>
+	    </dependency>
+	    
 	</dependencies>
 
 	<build>
